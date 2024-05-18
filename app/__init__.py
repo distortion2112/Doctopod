@@ -1,15 +1,11 @@
 from flask import Flask
-from .routes import main
 from .config import Config
-from celery import Celery
-import os
+from .routes import main
+from .celery_utils import make_celery
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
-    # Create Celery object
-    celery = make_celery(app)
 
     # Register blueprints
     app.register_blueprint(main)
@@ -17,16 +13,11 @@ def create_app():
     # Configure logging
     configure_logging(app)
 
-    return app
+    # Initialize Celery
+    celery = make_celery(app)
+    app.celery = celery
 
-def make_celery(app):
-    celery = Celery(
-        app.import_name,
-        backend=app.config['CELERY_RESULT_BACKEND'],
-        broker=app.config['CELERY_BROKER_URL']
-    )
-    celery.conf.update(app.config)
-    return celery
+    return app
 
 def configure_logging(app):
     if not app.debug:

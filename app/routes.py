@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify, current_app
-from werkzeug.utils import secure_filename
-import os
-from .utils import async_create_outline, async_generate_podcast_content
+from .tasks import async_create_outline, async_generate_podcast_content
 
 main = Blueprint('main', __name__)
+
+@main.route('/')
+def index():
+    return render_template('index.html')
 
 @main.route('/upload', methods=['POST'])
 def upload_file():
