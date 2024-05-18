@@ -30,6 +30,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+        - name: Set Heroku config vars
+        run: |
+          heroku config:set OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} -a doctopod
+
     - name: Deploy to Heroku
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
