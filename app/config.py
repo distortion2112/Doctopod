@@ -1,4 +1,5 @@
 import os
+import logging
 
 class Config:
     UPLOAD_FOLDER = 'uploads'
