@@ -1,11 +1,10 @@
 from flask import Blueprint, request, jsonify, current_app
-from .tasks import async_create_outline, async_generate_podcast_content
 
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    return render_template('index.html')
+    return "Hello, World!"
 
 @main.route('/upload', methods=['POST'])
 def upload_file():
@@ -18,6 +17,7 @@ def upload_file():
         filename = secure_filename(file.filename)
         file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
+        from .tasks import async_create_outline
         task = async_create_outline.apply_async(args=[file_path])
         return jsonify({'task_id': task.id}), 202
 
@@ -27,6 +27,7 @@ def process_section():
     section_text = data.get('section_text')
     if not section_text:
         return jsonify({'error': 'No section text provided'}), 400
+    from .tasks import async_generate_podcast_content
     task = async_generate_podcast_content.apply_async(args=[section_text])
     return jsonify({'task_id': task.id}), 202
 
