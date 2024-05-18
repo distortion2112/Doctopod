@@ -1,5 +1,7 @@
 import openai
-from .celery_utils import celery
+from celery import Celery
+
+celery = Celery(__name__)
 
 @celery.task
 def async_create_outline(file_path):

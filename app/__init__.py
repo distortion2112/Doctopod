@@ -8,10 +8,6 @@ def create_app():
     from .routes import main
     app.register_blueprint(main)
 
-    from .celery_utils import make_celery
-    celery = make_celery(app)
-    app.celery = celery
-
     configure_logging(app)
 
     return app
