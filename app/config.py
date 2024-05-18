@@ -1,11 +1,27 @@
 import os
-import logging
 
 class Config:
-    UPLOAD_FOLDER = 'uploads'
-    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-    CELERY_BROKER_URL = 'redis://localhost:6379/0'
-    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-    LOGGING_FORMAT = '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
-    LOGGING_LOCATION = 'app.log'
+    # Your existing configurations
     LOGGING_LEVEL = logging.INFO
+    # Add Redis configuration
+    REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+
+def init_app(app):
+    pass
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+class TestingConfig(Config):
+    TESTING = True
+
+class ProductionConfig(Config):
+    # Production specific configurations
+    pass
+
+config = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'production': ProductionConfig,
+    'default': DevelopmentConfig
+}

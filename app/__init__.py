@@ -1,16 +1,24 @@
 from flask import Flask
-from .config import Config
+from .config import config, init_app
+from .celery_utils import make_celery
+import logging
 
-def create_app():
+def create_app(config_name):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
 
-    from .routes import main
-    app.register_blueprint(main)
+    # Initialize Celery
+    celery = make_celery(app)
+
+    # Import and register blueprints
+    from .routes import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
     configure_logging(app)
 
-    return app
+    return app, celery
+
 
 def configure_logging(app):
     import logging
