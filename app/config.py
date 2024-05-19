@@ -3,7 +3,7 @@ import logging
 
 class Config:
     LOGGING_LEVEL = logging.INFO
-    REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+    REDIS_URL = os.getenv('REDIS_URL')
 
 def init_app(app):
     pass
