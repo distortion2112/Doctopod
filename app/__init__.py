@@ -11,6 +11,10 @@ def create_app(config_name):
     # Initialize Celery
     celery = make_celery(app)
 
+    # Initialize Redis
+    global redis_client
+    redis_client = Redis.from_url(app.config['REDIS_URL'])
+
     # Import and register blueprints
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)

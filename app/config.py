@@ -17,6 +17,11 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
 
+    @staticmethod
+    def init_app(app):
+        Config.init_app(app)
+        # Add any production-specific initialization here
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
