@@ -1,12 +1,13 @@
 from flask import Flask
-from .config import config, init_app
+from .config import config  # Import only config
 from .celery_utils import make_celery
 import logging
+from redis import Redis
 
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
+    config[config_name].init_app(app)  # Call init_app from the config class
 
     # Initialize Celery
     celery = make_celery(app)
@@ -23,9 +24,7 @@ def create_app(config_name):
 
     return app, celery
 
-
 def configure_logging(app):
-    import logging
     from logging.handlers import RotatingFileHandler
 
     if not app.debug:
