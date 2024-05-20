@@ -24,3 +24,20 @@ def async_generate_podcast_content(section_text):
     )
     detailed_content = response['choices'][0]['text']
     return {'content': detailed_content}
+
+@celery.task
+def async_process_outline(outline):
+    # Example implementation: split the outline into sections and process each section
+    sections = outline.split('\n')
+    section_tasks = [async_generate_podcast_content.apply_async(args=[section]) for section in sections if section.strip()]
+    return [task.id for task in section_tasks]
+
+@celery.task
+def async_assemble_script(section_task_ids):
+    # Example implementation: collect the results from each section task and assemble them into a script
+    script = ""
+    for task_id in section_task_ids:
+        section_task = async_generate_podcast_content.AsyncResult(task_id)
+        if section_task.state == 'SUCCESS':
+            script += section_task.info['content'] + '\n\n'
+    return {'script': script}
