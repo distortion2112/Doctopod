@@ -3,6 +3,7 @@ import logging
 
 class Config:
     LOGGING_LEVEL = logging.INFO
+    LOGGING_FORMAT = '%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s'  # Added LOGGING_FORMAT
     REDIS_URL = os.getenv('REDIS_URL')
     LOGGING_LOCATION = os.getenv('LOGGING_LOCATION', '/tmp/app.log')  # Default to '/tmp/app.log'
 

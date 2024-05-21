@@ -7,6 +7,12 @@ updates:
     commit-message:
       prefix: "deps"
     open-pull-requests-limit: 10
-#    ignore:
-#      - dependency-name: "example-package"
-#        versions: ["0.0.1"]
+    target-branch: "main"  # Specify the branch you want to update
+    reviewers:
+      - "distortion2112"  # Add GitHub usernames of reviewers
+    assignees:
+      - "distortion2112"  # Add GitHub usernames of assignees
+    automerge: true  # Enable auto-merge if all checks pass
+    ignore:
+      - dependency-name: "example-package"
+        versions: ["0.0.1"]

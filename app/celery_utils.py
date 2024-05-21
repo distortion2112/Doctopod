@@ -1,7 +1,13 @@
 from celery import Celery
-from .config import Config
 
 def make_celery(app):
+    """
+    Create a new Celery object and tie the Celery config to the app's config.
+    Wrap all tasks in the context of the Flask application.
+    
+    :param app: The Flask application instance
+    :return: A configured Celery object
+    """
     celery = Celery(
         app.import_name,
         backend=app.config['REDIS_URL'],
