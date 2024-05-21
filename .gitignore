@@ -6,6 +6,9 @@ __pycache__/
 # Jetbrains files
 *.idea
 
+# local logs location
+logs
+
 # C extensions
 *.so
 
