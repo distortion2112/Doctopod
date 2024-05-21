@@ -1,5 +1,6 @@
 import os
 from app import create_app
+from app.celery_utils import make_celery
 
 # Get the configuration name from the environment variable FLASK_CONFIG
 # Default to 'production' if the variable is not set
@@ -14,11 +15,11 @@ if __name__ == "__main__":
     app.run()
 
 
-    import os
-from app import create_app
-from app.celery_utils import make_celery
-
-
-
-if __name__ == "__main__":
-    app.run()
+#     import os
+# from app import create_app
+# from app.celery_utils import make_celery
+# 
+# 
+# 
+# if __name__ == "__main__":
+#     app.run()
