@@ -17,3 +17,11 @@ def debug_task(self):
         print('Request: {0!r}'.format(self.request))
 
 # Optional: You can define other configurations or tasks here if needed
+@celery.task(bind=True)
+def test_redis_connection(self):
+    try:
+        # Try to get the client information. This will fail if the Redis server is not reachable.
+        info = self.app.backend.client.info()
+        return 'Redis connection successful. Server info: {}'.format(info)
+    except Exception as e:
+        return 'Failed to connect to Redis: {}'.format(e)
