@@ -39,9 +39,11 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+
       run: |
         git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
         echo "machine api.heroku.com login ${{ secrets.HEROKU_EMAIL }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
         echo "machine git.heroku.com login ${{ secrets.HEROKU_EMAIL }} password ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
         heroku config:set FLASK_CONFIG=production -a doctopod
+        heroku config:set LOGGING_LOCATION=/tmp/app.log --app doctopod
         git push heroku main

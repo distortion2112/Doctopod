@@ -4,6 +4,7 @@ import logging
 class Config:
     LOGGING_LEVEL = logging.INFO
     REDIS_URL = os.getenv('REDIS_URL')
+    LOGGING_LOCATION = os.getenv('LOGGING_LOCATION', '/tmp/app.log')  # Default to '/tmp/app.log'
 
     @staticmethod
     def init_app(app):
